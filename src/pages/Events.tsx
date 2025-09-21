@@ -1,6 +1,10 @@
+import Layout from "@/components/Layout"
+
 const Events = () => {
     return (
-        <div>Events Page!!</div>
+        <Layout>
+            <div>Events Page!!</div>
+        </Layout>
     )
     
 }

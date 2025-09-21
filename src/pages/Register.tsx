@@ -1,6 +1,10 @@
+import Layout from "@/components/Layout"
+
 const Register = () => {
     return (
-        <div>Register Page!!</div>
+        <Layout>        
+            <div>Register Page!!</div>
+        </Layout>
     )
 }
 

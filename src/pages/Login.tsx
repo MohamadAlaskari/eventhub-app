@@ -1,6 +1,10 @@
+import Layout from "@/components/Layout"
+
 const Login = () => {
     return (
-        <div>Login Page!!</div>
+        <Layout>        
+            <div>Login Page!!</div>
+        </Layout>
     )
 }
 export default Login

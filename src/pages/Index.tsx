@@ -1,6 +1,10 @@
+import Layout from "@/components/Layout"
+
 const Index = () => {
     return (
-        <div>Index Page!!</div>
+        <Layout>        
+            <div>Index Page!!</div>
+        </Layout>
     )
 }
 

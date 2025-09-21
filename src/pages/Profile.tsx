@@ -1,6 +1,10 @@
+import Layout from "@/components/Layout"
+
 const Profile = () => {
     return (
-        <div>Profile Page!!</div>
+        <Layout>        
+            <div>Profile Page!!</div>
+        </Layout>
     )
 }
 

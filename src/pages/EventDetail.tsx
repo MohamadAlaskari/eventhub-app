@@ -1,5 +1,12 @@
+import Layout from "@/components/Layout"
+
 const EventDetail = () => {
-  return <div>EventDetail Page!!</div>
+  return (
+    <Layout>        
+        <div>EventDetail Page!!</div>
+    </Layout>
+    )
+  
 }
 
 export default EventDetail
