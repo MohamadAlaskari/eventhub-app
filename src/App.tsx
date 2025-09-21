@@ -1,13 +1,13 @@
+import { BrowserRouter } from 'react-router-dom'
 import './App.css'
+import AppRoutes from './AppRoutes'
 
 function App() {
 
   return (
-    <>
-    <div className="flex items-center justify-center h-screen">
-      <h1 className="text-3xl font-bold">EventHub</h1>
-    </div>
-    </>
+    <BrowserRouter>
+      <AppRoutes />
+    </BrowserRouter>
   )
 }
 
