@@ -6,7 +6,7 @@ import Profile from "./pages/Profile";
 import NotFound from "./pages/NotFound";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
-import { Favorites } from "./pages/Favorites";
+import Favorites from "./pages/Favorites";
 
 const AppRoutes = () => {
   return (

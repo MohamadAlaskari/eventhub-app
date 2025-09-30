@@ -2,9 +2,7 @@ import Layout from "@/components/Layout"
 
 const Register = () => {
     return (
-        <Layout>        
             <div>Register Page!!</div>
-        </Layout>
     )
 }
 

@@ -1,7 +1,7 @@
 import Layout from "@/components/Layout"
 import { Heart } from "lucide-react"
 
-export const Favorites = () => {
+ const Favorites = () => {
 
     return (
         <Layout>
@@ -27,3 +27,5 @@ export const Favorites = () => {
     )
 
 }
+
+export default Favorites
