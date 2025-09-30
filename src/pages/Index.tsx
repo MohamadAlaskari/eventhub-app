@@ -8,9 +8,9 @@ const Index = () => {
     return (
         <Layout>
             {/* Hero Section */}
-            <section className="relative overflow-hidden bg-primary min-h-[80vh] flex items-center">
+            <section className="relative overflow-hidden bg-gradient-hero min-h-[calc(100vh-4rem-1px)] flex items-center">
                 <div className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-40" style={{ backgroundImage: `url(${heroImage})` }} />
-                <div className="absolute inset-0 bg-primary opacity-90" />
+                <div className="absolute inset-0 bg-gradient-hero opacity-90" />
                 <div className="container relative z-10 mx-auto px-4 sm:px-6 lg:px-8 text-center">
                     <div className="max-w-4xl mx-auto">
                         <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-6 animate-float">
@@ -25,7 +25,7 @@ const Index = () => {
                         </p>
                         <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
                             <Link to="/events">
-                                <Button variant="default" size="xl" className="w-full sm:w-auto animate-pulse-glow">
+                                <Button variant="accent" size="xl" className="w-full sm:w-auto animate-pulse-glow">
                                     <Calendar className="mr-2 h-5 w-5" /> Explore Events 
                                 </Button>
                             </Link>
