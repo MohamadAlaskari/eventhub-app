@@ -1,12 +1,13 @@
-import { Link,useLocation } from "react-router-dom";
+import { Link,useLocation, useNavigate } from "react-router-dom";
 import { Button } from "./ui/button";
 import { cn } from "@/lib/utils";
-import { Calendar, ChevronDown, LogOut, Menu, User, X } from "lucide-react";
+import { Calendar, ChevronDown, Heart, LogOut, Menu, User, X } from "lucide-react";
 import { useState } from "react";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "./ui/dropdown-menu";
 
 const Header = () => {
     const location = useLocation();
+    const navigate = useNavigate();
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const user = { name: "John Doe" };
@@ -17,10 +18,16 @@ const Header = () => {
         { name: 'Events', href: '/events' },
     ]
 
-    const isPathActive = (path: string) => {
+    const isActivePath = (path: string) => {
         if (path==="/" ) return location.pathname === "/";
         return location.pathname.startsWith(path) ;
     }
+
+      const handleLogout = () => {
+        navigate('/');
+    };
+
+
 
   return (
     <header className="bg-background/95 backdrop-blur-sm border-b border-border sticky top-0 z-50 shadow-soft">
@@ -40,7 +47,7 @@ const Header = () => {
             <nav className="hidden md:flex items-center space-x-6">
                 {navigation.map((item) => (
                     <Link key={item.name} to={item.href} className={cn("text-sm font-medium text-foreground hover:text-primary",
-                        isPathActive(item.href) ? "text-primary border-b-2 border-primary pb-1" : "text-muted-foreground"
+                        isActivePath(item.href) ? "text-primary border-b-2 border-primary pb-1" : "text-muted-foreground"
                         )}>
                             {item.name}
                     </Link>
@@ -63,9 +70,16 @@ const Header = () => {
                         <DropdownMenuItem asChild>
                             <Link to="/profile" className="w-full">
                                 <User className="mr-2 h-4 w-4" />
-                                 Profile
+                                    Profil
                             </Link>
                         </DropdownMenuItem>
+                        <DropdownMenuItem asChild>
+                            <Link to="/favorites" className="w-full">
+                                <Heart className="mr-2 h-4 w-4" />
+                                    Favoriten
+                            </Link>
+                        </DropdownMenuItem>
+
                         <DropdownMenuSeparator />
                         <DropdownMenuItem onClick={() => {setIsAuthenticated(false);  }}>
                         <LogOut className="mr-2 h-4 w-4" />
@@ -100,43 +114,73 @@ const Header = () => {
 
         {/* Mobile Navigation */}
         {isMobileMenuOpen && (
-            <div className="md:hidden mt-2 border-t pt-2 bg-background/95 backdrop-blur-sm">
-                <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-                    {navigation.map((item) => (
+          <div className="md:hidden border-t border-border bg-background/95 backdrop-blur-sm">
+            <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+              {navigation.map((item) => (
                 <Link
                   key={item.name}
                   to={item.href}
                   className={cn(
                     "block px-3 py-2 rounded-md text-base font-medium transition-colors duration-200",
-                    isPathActive(item.href)
+                    isActivePath(item.href)
                       ? "text-primary bg-primary/10"
                       : "text-muted-foreground hover:text-primary hover:bg-accent"
                   )}
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
                   {item.name}
-
                 </Link>
               ))}
-                </div>
-                <div className="flex flex-col pt-4 border-t mt-4 space-y-2">
-                    <Link to="/login" onClick={() => setIsMobileMenuOpen(false)}>
-                      <Button variant="ghost" className="w-full justify-start" size="sm" onClick={() => {setIsAuthenticated(true);  }}>
+              <div className="pt-4 border-t border-border mt-4 space-y-2">
+                {isAuthenticated && user ? (
+                  <>
+                    <div className="px-3 py-2 text-sm font-medium text-foreground">
+                      Hallo, {user.name}
+                    </div>
+                    <Link to="/profile" onClick={() => setIsMobileMenuOpen(false)}>
+                      <Button variant="ghost" className="w-full justify-start" size="sm">
+                        <User className="mr-2 h-4 w-4" />
+                        Profil
+                      </Button>
+                    </Link>
+                    <Link to="/favorites" onClick={() => setIsMobileMenuOpen(false)}>
+                      <Button variant="ghost" className="w-full justify-start" size="sm">
+                        <Heart className="mr-2 h-4 w-4" />
+                        Favoriten
+                      </Button>
+                    </Link>
+                    <Button 
+                      variant="ghost" 
+                      className="w-full justify-start" 
+                      size="sm"
+                      onClick={() => {
+                        handleLogout();
+                        setIsMobileMenuOpen(false);
+                      }}
+                    >
+                      <LogOut className="mr-2 h-4 w-4" />
+                      Logout
+                    </Button>
+                  </>
+                ) : (
+                  <>
+                    <Link to="/login" onClick={() => setIsAuthenticated(true)}>
+                      <Button variant="ghost" className="w-full justify-start mb-2" size="sm">
                         <User className="mr-2 h-4 w-4" />
                         Sign In
                       </Button>
                     </Link>
-                    <Link to="/register" onClick={() => setIsMobileMenuOpen(false)}>
-                      <Button variant="hero" className="w-full mb-4" size="sm">
+                    <Link to="/register" onClick={() => setIsAuthenticated(false)}>
+                      <Button variant="hero" className="w-full" size="sm">
                         Sign Up
                       </Button>
                     </Link>
-                    
-                </div>
-
+                  </>
+                )}
+              </div>
             </div>
+          </div>
         )}
-
       </div>
     </header> 
   );
