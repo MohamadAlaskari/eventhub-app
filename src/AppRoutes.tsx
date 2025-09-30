@@ -6,6 +6,7 @@ import Profile from "./pages/Profile";
 import NotFound from "./pages/NotFound";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
+import { Favorites } from "./pages/Favorites";
 
 const AppRoutes = () => {
   return (
@@ -14,9 +15,9 @@ const AppRoutes = () => {
         <Route path="/events" element={<Events />} />
         <Route path="/events/:eventId" element={<EventDetail />} />
         <Route path="/Profile" element={<Profile />} />
+        <Route path="/favorites" element={<Favorites />} />
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
-        
         <Route path="*" element={<NotFound/>} />
         
     </Routes>
