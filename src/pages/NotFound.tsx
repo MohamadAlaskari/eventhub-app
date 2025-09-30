@@ -12,7 +12,6 @@ const NotFound = () => {
   }, [location.pathname]);
 
   return (
-    <Layout>
       <div className="flex min-h-[calc(100vh-4rem)] items-center justify-center bg-muted/30">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <div className="max-w-md mx-auto">
@@ -49,7 +48,6 @@ const NotFound = () => {
           </div>
         </div>
       </div>
-    </Layout>
   );
 };
 
