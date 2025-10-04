@@ -1,6 +1,7 @@
 import AuthService from "@/services/auth.service";
 import type { AuthState, LoginCredentials, RegisterCredetials } from "@/types/auth";
 import React, { useCallback, useEffect, useState, type ReactNode } from "react";
+import { toast } from "sonner";
 
 
 // Interface defining the context type with authentication methods
@@ -77,13 +78,18 @@ export const AuthProvider= ({children}: AuthProviderProps) => {
             isAuthenticated: true,
             isLoading: false,
         })
-    } catch (error) {
+
+      toast.success(`Welcome back, ${user.name}`);
+
+    } catch (error: any) {
         setAuthState( oldState => ({ ...oldState, isLoading: false }));
-        // Todo: toast error 
+        toast.error('Login failed', {
+            description: error instanceof Error ? error.message : 'An error occurred',
+        });
 
         throw error;
     }
-  },[]) // Todo: add toast dependencies
+  },[]) 
   
 
 
@@ -92,7 +98,7 @@ export const AuthProvider= ({children}: AuthProviderProps) => {
         try {
             setAuthState(oldState => ({ ...oldState, isLoading: true }));
 
-             await authService.register(userData);
+             const data= await authService.register(userData);
             
             setAuthState({
                 user:null,
@@ -100,15 +106,18 @@ export const AuthProvider= ({children}: AuthProviderProps) => {
                 isLoading: false,
             });
 
-            // Todo: toast success
-
+            toast.success('Account created!', {
+                description: data.message,
+            });
             
-        } catch (error) {
+        } catch (error: any) {
             setAuthState(oldState => ({ ...oldState, isLoading: false }));
-            // Todo: toast error
+            toast.error('Registration failed', {
+                description: error instanceof Error ? error.message : 'An error occurred',
+            });            
             throw error;
         }
-    }, []); // Todo: add toast dependencies
+    }, []); 
 
     const logout = useCallback(async () => {
         try {
@@ -118,8 +127,10 @@ export const AuthProvider= ({children}: AuthProviderProps) => {
                 isAuthenticated: false,
                 isLoading: false,
             })
-
-            // Todo: toast success
+            toast.success('Logged out', {
+                description: 'You have been successfully logged out',
+            });
+            
         } catch (error) {
             console.error('Failed to logout:', error);
 
@@ -130,7 +141,7 @@ export const AuthProvider= ({children}: AuthProviderProps) => {
             })
             throw error;
         }
-    },[]) // Todo: add toast dependencies
+    },[]) 
 
 
     const refreshUser = useCallback(async () => {
