@@ -93,7 +93,7 @@ export const AuthProvider= ({children}: AuthProviderProps) => {
   
 
 
-      // 
+    // Register user
     const register = useCallback(async (userData: RegisterCredetials) => {
         try {
             setAuthState(oldState => ({ ...oldState, isLoading: true }));
@@ -106,8 +106,9 @@ export const AuthProvider= ({children}: AuthProviderProps) => {
                 isLoading: false,
             });
 
-            toast.success('Account created!', {
-                description: data.message,
+            
+            toast.success("Registration successful!", {
+                description: "Please check your email to verify your account before logging in."
             });
             
         } catch (error: any) {

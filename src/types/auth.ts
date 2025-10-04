@@ -4,7 +4,7 @@ export interface RegisterCredetials {
     name: string;
     email: string;
     password: string;
-    countryCode?: CountryCode;
+    countryCode: CountryCode;
 
 }
 
