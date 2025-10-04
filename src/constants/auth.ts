@@ -1,17 +1,12 @@
-/**
- * Authentication constants
- * @module constants/auth
- */
-
 export const AUTH_CONFIG = {
-  TOKEN_KEY: 'auth_token',
+  TOKEN_KEY: 'access_token',
   REFRESH_TOKEN_KEY: 'refresh_token',
-  TOKEN_EXPIRY_BUFFER: 5 * 60 * 1000, // 5 minutes before expiry
+  TOKEN_EXPIRY_BUFFER: 5 * 60 * 1000, // 5 minutes
 } as const;
 
 export const AUTH_ENDPOINTS = {
   LOGIN: '/auth/login',
-  REGISTER: '/auth/signup', 
+  REGISTER: '/auth/signup',
   PROFILE: '/auth/profile',
   LOGOUT: '/auth/logout',
   REFRESH: '/auth/refresh',

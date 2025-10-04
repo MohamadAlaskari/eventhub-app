@@ -1,63 +1,90 @@
 /**
- * API configuration settings and HTTP client setup.
- * 
+ * API Configuration and HTTP Client
+ * @module config/api
  */
-import { AUTH_CONFIG } from "@/constants/auth";
-import { secureStorage } from "@/lib/storage";
-import axios, { type AxiosInstance, type AxiosRequestConfig } from "axios";
 
-// Define the API configuration settings.
+import { secureStorage } from '@/lib/storage';
+import { AUTH_CONFIG } from '@/constants/auth';
+import { setupTokenInterceptor } from './tokenInterceptor';
+import type { AxiosInstance, AxiosRequestConfig } from 'axios';
+import axios from 'axios';
+
+/**
+ * Base API config
+ */
 export const API_CONFIG = {
-    BASE_URL: import.meta.env.VITE_API_BASE_URL || "http://localhost:4000/api" ,
-    TIMEOUT: 10000, 
-    HEADERS: {
-        "Content-Type": "application/json",
-        "Accept": "application/json",
-    },
+  BASE_URL: 'https://eventhub-api.alaskaritech.com',
+  TIMEOUT: 10000,
+  HEADERS: {
+    'Content-Type': 'application/json',
+    Accept: 'application/json',
+  },
 } as const;
 
-
-// Create an Axios instance with the API configuration.
-const httpClient:AxiosInstance  = axios.create({
-    baseURL: API_CONFIG.BASE_URL,
-    timeout: API_CONFIG.TIMEOUT,
-    headers: API_CONFIG.HEADERS,
+/**
+ * Axios instance
+ */
+const httpClient: AxiosInstance = axios.create({
+  baseURL: API_CONFIG.BASE_URL,
+  timeout: API_CONFIG.TIMEOUT,
+  headers: API_CONFIG.HEADERS,
 });
 
-// HTTP Methods - Direct access to httpClient
+/**
+ * Attach token refresh interceptor
+ */
+setupTokenInterceptor(httpClient);
+
+// Public http methods (no auth header)
 export const http = {
-  get: <T>(url: string, config?: AxiosRequestConfig) => 
+  get: <T>(url: string, config?: AxiosRequestConfig) =>
     httpClient.get<T>(url, config),
-    
-  post: <T>(url: string, data?: any, config?: AxiosRequestConfig) => 
+
+  post: <T>(url: string, data?: any, config?: AxiosRequestConfig) =>
     httpClient.post<T>(url, data, config),
-    
-  put: <T>(url: string, data?: any, config?: AxiosRequestConfig) => 
+
+  put: <T>(url: string, data?: any, config?: AxiosRequestConfig) =>
     httpClient.put<T>(url, data, config),
-    
-  delete: <T>(url: string, config?: AxiosRequestConfig) => 
+
+  delete: <T>(url: string, config?: AxiosRequestConfig) =>
     httpClient.delete<T>(url, config),
 };
 
-// Auth helpers
+// Helper to build auth headers
 export const getAuthHeaders = () => {
   const token = secureStorage.getItem(AUTH_CONFIG.TOKEN_KEY);
   return token ? { Authorization: `Bearer ${token}` } : {};
 };
 
-// Authenticated HTTP Methods - Direct access to httpClient with auth headers
+// Authenticated http methods (auto-attach Authorization header)
 export const httpAuth = {
-  get: <T>(url: string, config?: AxiosRequestConfig) => 
-    httpClient.get<T>(url, { ...config, headers: { ...getAuthHeaders(), ...config?.headers } }),
-    
-  post: <T>(url: string, data?: any, config?: AxiosRequestConfig) => 
-    httpClient.post<T>(url, data, { ...config, headers: { ...getAuthHeaders(), ...config?.headers } }),
-    
-  put: <T>(url: string, data?: any, config?: AxiosRequestConfig) => 
-    httpClient.put<T>(url, data, { ...config, headers: { ...getAuthHeaders(), ...config?.headers } }),
-    
-  delete: <T>(url: string, config?: AxiosRequestConfig) => 
-    httpClient.delete<T>(url, { ...config, headers: { ...getAuthHeaders(), ...config?.headers } }),
+  get: <T>(url: string, config?: AxiosRequestConfig) =>
+    httpClient.get<T>(url, {
+      ...config,
+      headers: { ...getAuthHeaders(), ...config?.headers },
+    }),
+
+  post: <T>(url: string, data?: any, config?: AxiosRequestConfig) =>
+    httpClient.post<T>(url, data, {
+      ...config,
+      headers: { ...getAuthHeaders(), ...config?.headers },
+    }),
+
+  put: <T>(url: string, data?: any, config?: AxiosRequestConfig) =>
+    httpClient.put<T>(url, data, {
+      ...config,
+      headers: { ...getAuthHeaders(), ...config?.headers },
+    }),
+
+  patch: <T>(url: string, data?: any, config?: AxiosRequestConfig) =>
+    httpClient.patch<T>(url, data, {
+      ...config,
+      headers: { ...getAuthHeaders(), ...config?.headers },
+    }),
+
+  delete: <T>(url: string, config?: AxiosRequestConfig) =>
+    httpClient.delete<T>(url, {
+      ...config,
+      headers: { ...getAuthHeaders(), ...config?.headers },
+    }),
 };
-
-

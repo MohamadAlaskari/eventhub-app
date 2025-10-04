@@ -1,27 +1,45 @@
+export const AUTH_ENDPOINTS = {
+  LOGIN: '/auth/login',
+  REGISTER: '/auth/signup',
+  PROFILE: '/auth/profile',
+  LOGOUT: '/auth/logout',
+  REFRESH: '/auth/refresh',
+} as const;
+
 /**
- * API Endpoints Configuration
+ * Events Endpoints
  */
-
-
-// Authentication Endpoints - Import from auth constants
-import { AUTH_ENDPOINTS } from './auth';
-
-// Events Endpoints - Your Backend API
 export const EVENTS_ENDPOINTS = {
-  LIST: '/event/events',
-  DETAILS: (id: string) => `/event/${id}`,
+  LIST: '/event/events',                    
+  DETAILS: (id: string) => `/event/${id}`,  
 } as const;
 
-// User Endpoints
+/**
+ * Favorites Endpoints
+ */
+export const FAVORITE_ENDPOINTS = {
+  ADD: (eventId: string) => `/favorite/${eventId}`,  
+  REMOVE: (eventId: string) => `/favorite/${eventId}`,
+  CHECK: (eventId: string) => `/favorite/${eventId}`,   
+  LIST: '/favorite',                                    
+} as const;
+
+/**
+ * User Endpoints
+ */
 export const USER_ENDPOINTS = {
-  PROFILE: '/user/profile',
-  UPDATE: '/user/update',
-  BOOKINGS: '/user/bookings',
+  CREATE: '/user',                            
+  GET_BY_ID: (id: string) => `/user/${id}`,   
+  UPDATE: (id: string) => `/user/${id}`,      
+  DELETE: (id: string) => `/user/${id}`,      
 } as const;
 
-// Export all endpoints
+/**
+ * Unified API Endpoints Export
+ */
 export const API_ENDPOINTS = {
   AUTH: AUTH_ENDPOINTS,
   EVENTS: EVENTS_ENDPOINTS,
+  FAVORITE: FAVORITE_ENDPOINTS,
   USER: USER_ENDPOINTS,
 } as const;

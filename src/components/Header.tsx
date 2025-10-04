@@ -4,13 +4,13 @@ import { cn } from "@/lib/utils";
 import { Calendar, ChevronDown, Heart, LogOut, Menu, User, X } from "lucide-react";
 import { useState } from "react";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "./ui/dropdown-menu";
+import { useAuth } from "@/hooks/useAuth";
 
 const Header = () => {
     const location = useLocation();
     const navigate = useNavigate();
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-    const [isAuthenticated, setIsAuthenticated] = useState(false);
-    const user = { name: "John Doe" };
+    const {user,isAuthenticated, logout}= useAuth();
 
 
     const navigation = [
@@ -23,7 +23,8 @@ const Header = () => {
         return location.pathname.startsWith(path) ;
     }
 
-      const handleLogout = () => {
+      const handleLogout = async() => {
+        await logout();
         navigate('/');
     };
 
@@ -56,7 +57,7 @@ const Header = () => {
 
             {/* Desktop Auth Section */}
             <div className="hidden md:flex gap-2">
-            { isAuthenticated ? (
+            { isAuthenticated && user ? (
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                         <Button variant="ghost" size="sm" className="flex items-center space-x-2">
@@ -81,7 +82,7 @@ const Header = () => {
                         </DropdownMenuItem>
 
                         <DropdownMenuSeparator />
-                        <DropdownMenuItem onClick={() => {setIsAuthenticated(false);  }}>
+                        <DropdownMenuItem onClick={handleLogout }>
                         <LogOut className="mr-2 h-4 w-4" />
                             Logout
                         </DropdownMenuItem>
@@ -91,7 +92,7 @@ const Header = () => {
             ): (  
                 <>
                 <Link to="/login">
-                    <Button variant="ghost" size="sm" onClick={() => {setIsAuthenticated(true);  }} >
+                    <Button variant="ghost" size="sm" >
                         Sign In
                     </Button>
                     </Link>
@@ -164,13 +165,13 @@ const Header = () => {
                   </>
                 ) : (
                   <>
-                    <Link to="/login" onClick={() => setIsAuthenticated(true)}>
+                    <Link to="/login" onClick={() => setIsMobileMenuOpen(false)} >
                       <Button variant="ghost" className="w-full justify-start mb-2" size="sm">
                         <User className="mr-2 h-4 w-4" />
                         Sign In
                       </Button>
                     </Link>
-                    <Link to="/register" onClick={() => setIsAuthenticated(false)}>
+                    <Link to="/register" onClick={() => setIsMobileMenuOpen(false)}>
                       <Button variant="hero" className="w-full" size="sm">
                         Sign Up
                       </Button>
