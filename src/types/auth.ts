@@ -1,4 +1,4 @@
-import type { CountryCode } from "./countryCode";
+import type { CountryCode } from "./CountryCode";
 
 export interface RegisterCredetials {
     name: string;

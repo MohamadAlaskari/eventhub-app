@@ -4,12 +4,12 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useAuth } from "@/hooks/useAuth";
-import type { RegisterCredetials } from "@/types/auth";
-import { CountryCode } from "@/types/countryCode";
 import { Globe, Mail, User, Lock, EyeOff, Eye } from "lucide-react";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
+import { CountryCode } from "@/types/CountryCode";
+import type { RegisterCredetials } from "@/types/auth";
 
 
 

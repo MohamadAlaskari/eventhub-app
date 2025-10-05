@@ -1,4 +1,4 @@
-import { CountryCode } from '@/types/countryCode';
+import { CountryCode } from '@/types/CountryCode';
 import { z } from 'zod';
 
 // User registration validation schema
@@ -25,7 +25,7 @@ export const registerSchema = z.object({
   country: z.nativeEnum(CountryCode, { 
     message: "Please select a country",
   }),
-  
+
     confirmPassword: z.string(), 
         countryCode: z.nativeEnum(CountryCode, {
         message: "Please select a country",

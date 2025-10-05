@@ -5,7 +5,7 @@ import { Heart } from "lucide-react"
 import { Link } from "react-router-dom"
 
  const Favorites = () => {
-    const {user, isAuthenticated} = useAuth()
+    const {isAuthenticated} = useAuth()
 
     if (!isAuthenticated) {
         return (
