@@ -1,10 +1,10 @@
 import { httpAuth } from "@/config/api";
 import { API_ENDPOINTS } from "@/constants/endpoints";
-import type { Favorite, FavoritePageInfo } from "@/types/favorite";
+import type { Event, PageInfo } from "@/types/event";
 
 interface FavoriteApiResponse {
-    page: FavoritePageInfo;
-    events: Favorite[];
+    page: PageInfo;
+    events: Event[];
 }
 
 

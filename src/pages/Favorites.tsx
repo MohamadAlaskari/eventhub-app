@@ -1,4 +1,5 @@
 import AuthRequired from "@/components/AuthRequired"
+import FavoriteEventCard from "@/components/FavoriteEventCard"
 import Layout from "@/components/Layout"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader } from "@/components/ui/card"
@@ -10,7 +11,7 @@ import { Link } from "react-router-dom"
 
  const Favorites = () => {
     const {isAuthenticated} = useAuth()
-    const { favorites, isloading} = useFavorites()
+    const { favorites, isloading, removeFavorite} = useFavorites()
 
     if (!isAuthenticated) {
         return (
@@ -25,6 +26,16 @@ import { Link } from "react-router-dom"
         <Layout>
             <div className="container mx-auto px-4 py-8 max-w-6xl">
                 <div className="space-y-8">
+                    {/* Header */}
+                    <div className="text-center">
+                        <div className="flex items-center justify-center space-x-3 mb-4">
+                            <Heart className="h-8 w-8 text-primary" />
+                            <h1 className="text-4xl font-bold">My Favorites</h1>
+                        </div>
+                        <p className="text-muted-foreground text-lg">
+                            All events you have added to your favorites
+                        </p>
+                    </div>
 
                     {/* Favorites Content */}
                     {isloading ? (
@@ -47,14 +58,15 @@ import { Link } from "react-router-dom"
 
                         /**check if there any Favorites */
                         favorites.length > 0 ? (
-                            <div className="text-center">
-                                <div className="flex items-center justify-center space-x-3 mb-4">
-                                    <Heart className="h-8 w-8 text-primary" />
-                                    <h1 className="text-4xl font-bold">My Favorites</h1>
-                                </div>
-                                <p className="text-muted-foreground text-lg">
-                                    All events you have added to your favorites
-                                </p>
+            
+                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                                {favorites.map((event) =>(
+                                    <FavoriteEventCard
+                                        key={event.id}
+                                        event={event}
+                                        onRemove={removeFavorite}
+                                    />
+                                ))}
                             </div>
 
                         ) : 

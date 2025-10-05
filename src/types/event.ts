@@ -8,13 +8,13 @@ export interface Event {
     salesStart: string,
     salesEnd: string,
     startDate: string,
-    StartTime: string,
+    startTime: string, 
     endDate: string | null,
     timezone: string,
     status: string,
     minPrice: number | null,
     maxPrice: number | null,
-    currrency: string | null,
+    currency: string | null, 
     segment: string,
     genre: string;
     subGenre: string;

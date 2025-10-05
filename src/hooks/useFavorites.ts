@@ -57,8 +57,8 @@ export const useFavorites = () => {
         favorites: favoritesQuery.data?.events ?? [],
         pageInfo: favoritesQuery.data?.page,
         isloading: favoritesQuery.isLoading,
-        addFavorite: addFavoriteMutation,
-        removeFavorite: removeFavoriteMutation,
+        addFavorite: addFavoriteMutation.mutate,
+        removeFavorite: removeFavoriteMutation.mutate,
         isAdding: addFavoriteMutation.isPending,
         isRemoving: removeFavoriteMutation.isPending,
     }
