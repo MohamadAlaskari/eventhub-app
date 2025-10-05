@@ -60,8 +60,8 @@ const Header = () => {
             { isAuthenticated && user ? (
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
-                        <Button variant="ghost" size="sm" className="flex items-center space-x-2">
-                            <span className="text-sm font-medium text-foreground">
+                        <Button variant="ghost" size="sm" className="group flex items-center space-x-2">
+                            <span className="text-sm font-medium text-foreground group-hover:text-white">
                                 Hallo, {user.name}
                             </span>
                         <ChevronDown className="h-4 w-4" />
