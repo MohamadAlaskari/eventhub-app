@@ -2,12 +2,10 @@ import AuthRequired from "@/components/AuthRequired"
 import Layout from "@/components/Layout"
 import QuickStatCard from "@/components/QuickStatCard"
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
-import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { useAuth } from "@/hooks/useAuth"
 import { useFavorites } from "@/hooks/useFavorites"
 import { Heart, Mail, Ticket, User } from "lucide-react"
-import { Link } from "react-router-dom"
 
 const Profile = () => {
     const {user, isAuthenticated} = useAuth()
