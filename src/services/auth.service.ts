@@ -11,10 +11,10 @@ class AuthService {
         try {
             const response = await http.post<AuthResponse>(API_ENDPOINTS.AUTH.LOGIN, loginCredentials);
             const authresponse: AuthResponse = response.data;
-        
+
             // Save tokens to Local Storage
-            secureStorage.setItem(AUTH_CONFIG.TOKEN_KEY, authresponse.accessToken);
-            secureStorage.setItem(AUTH_CONFIG.REFRESH_TOKEN_KEY, authresponse.refreshToken);
+            secureStorage.setItem(AUTH_CONFIG.TOKEN_KEY, authresponse.access_token);
+            secureStorage.setItem(AUTH_CONFIG.REFRESH_TOKEN_KEY, authresponse.refresh_token);
             
             return this.getCurrentUser();
         } catch (error) {
@@ -62,8 +62,8 @@ class AuthService {
             const authresponse: AuthResponse = res.data;
 
             // Save tokens to Local Storage
-            secureStorage.setItem(AUTH_CONFIG.TOKEN_KEY, authresponse.accessToken);
-            secureStorage.setItem(AUTH_CONFIG.REFRESH_TOKEN_KEY, authresponse.refreshToken);
+            secureStorage.setItem(AUTH_CONFIG.TOKEN_KEY, authresponse.access_token);
+            secureStorage.setItem(AUTH_CONFIG.REFRESH_TOKEN_KEY, authresponse.refresh_token);
             return authresponse
           
         } catch (error) {
