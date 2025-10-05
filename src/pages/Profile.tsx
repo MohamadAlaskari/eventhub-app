@@ -1,14 +1,17 @@
 import AuthRequired from "@/components/AuthRequired"
 import Layout from "@/components/Layout"
+import QuickStatCard from "@/components/QuickStatCard"
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { useAuth } from "@/hooks/useAuth"
-import { Mail, User } from "lucide-react"
+import { useFavorites } from "@/hooks/useFavorites"
+import { Heart, Mail, Ticket, User } from "lucide-react"
 import { Link } from "react-router-dom"
 
 const Profile = () => {
     const {user, isAuthenticated} = useAuth()
+    const {favorites} = useFavorites()
 
    const getInitials = (name: string) => {
         const names = name.split(" ");
@@ -53,6 +56,28 @@ const Profile = () => {
                         </CardContent>
                     </Card>
                     {/* Quick Stats */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <QuickStatCard
+                            icon={Heart}
+                            count={favorites.length}
+                            label="Favoriten"
+                            link="/favorites"
+                            buttonText="Alle anzeigen"
+                            btnVariant="outline"
+                            btnDisabled={false}
+                            >
+                        </QuickStatCard>
+                        <QuickStatCard
+                            icon={Ticket}
+                            count={0}
+                            label="Favoriten"
+                            buttonText="Available soon"
+                            btnVariant="secondary"
+                            btnDisabled={true}
+                            >
+                        </QuickStatCard>
+                    
+                    </div>
                     
                     {/* Profile Content */}
 
