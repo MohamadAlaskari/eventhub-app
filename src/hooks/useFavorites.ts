@@ -39,11 +39,10 @@ export const useFavorites = () => {
     // Mutation to remove a favorite event
     const removeFavoriteMutation = useMutation({
         mutationFn: (eventId: string) => favoritesService.removeFavorite(eventId),
-        onSuccess: () => {
+        onSuccess: (_, eventId) => {
             toast.success('Event removed from favorites')
             queryClient.invalidateQueries({ queryKey: ['favorite', eventId] });
             queryClient.invalidateQueries({ queryKey: ['favorites'] });
-
         },
         onError: (error) => {
             toast.error('Error', {
