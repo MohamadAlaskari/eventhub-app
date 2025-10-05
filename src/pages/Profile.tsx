@@ -1,3 +1,4 @@
+import AuthRequired from "@/components/AuthRequired"
 import Layout from "@/components/Layout"
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
@@ -16,20 +17,11 @@ const Profile = () => {
 
     if (!isAuthenticated) {
         return (
-            <div className="container mx-auto px-4 py-8">
-          <div className="text-center">
-            <User className="h-16 w-16 text-muted-foreground mx-auto mb-6" />
-            <h1 className="text-3xl font-bold mb-4">Profil</h1>
-            <p className="text-muted-foreground mb-6">
-              Melden Sie sich an, um Ihr Profil zu verwalten.
-            </p>
-            <Link to="/login">
-              <Button variant="hero" size="lg">
-                Jetzt anmelden
-              </Button>
-            </Link>
-          </div>
-        </div>
+            <AuthRequired 
+                icon={User} 
+                title="Profile" 
+                description="You need to be logged in to manage your profile.">
+            </AuthRequired>
         )
     }
     return (

@@ -1,3 +1,4 @@
+import AuthRequired from "@/components/AuthRequired"
 import Layout from "@/components/Layout"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader } from "@/components/ui/card"
@@ -13,20 +14,11 @@ import { Link } from "react-router-dom"
 
     if (!isAuthenticated) {
         return (
-            <div className="container mx-auto px-4 py-8">
-                <div className="text-center">
-                    <Heart className="h-16 w-16 text-muted-foreground mx-auto mb-6" />
-                    <h1 className="text-3xl font-bold mb-4">Ihre Favoriten</h1>
-                    <p className="text-muted-foreground mb-6">
-                        Melden Sie sich an, um Ihre Lieblings-Events zu sehen und zu verwalten.
-                    </p>
-                    <Link to="/login">
-                        <Button variant="hero" size="lg">
-                            Jetzt anmelden
-                        </Button>
-                    </Link>
-                </div>
-            </div>
+            <AuthRequired 
+                icon={Heart} 
+                title="Your favorites" 
+                description="Sign in to view and manage your favorite events.">
+            </AuthRequired>
         )
     }
     return (
