@@ -1,4 +1,4 @@
-import AuthService from "@/services/auth.service";
+import { authService } from "@/services/auth.service";
 import type { AuthState, LoginCredentials, RegisterCredetials } from "@/types/auth";
 import React, { useCallback, useEffect, useState, type ReactNode } from "react";
 import { toast } from "sonner";
@@ -18,7 +18,6 @@ export const AuthContext = React.createContext<AuthContextType | undefined>(unde
 interface AuthProviderProps {
   children: ReactNode;
 }
-const authService = new AuthService();
 
 
 /**

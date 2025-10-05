@@ -15,7 +15,7 @@ class AuthService {
             // Save tokens to Local Storage
             secureStorage.setItem(AUTH_CONFIG.TOKEN_KEY, authresponse.access_token);
             secureStorage.setItem(AUTH_CONFIG.REFRESH_TOKEN_KEY, authresponse.refresh_token);
-            
+
             return this.getCurrentUser();
         } catch (error) {
             console.log(error);
@@ -77,4 +77,4 @@ class AuthService {
     }
 
 }
-export default AuthService;
+export const authService = new AuthService();
