@@ -39,7 +39,7 @@ const Header = () => {
                 <div className="bg-gradient-primary p-2 rounded-lg shadow-medium group-hover:shadow-glow transition-all duration-300 ">
                     <Calendar className="h-6 w-6 text-primary-foreground" />
                 </div>
-                <span className="bg-gradient-primary bg-clip-text text-transparent text-xl font-bold text-primary">
+                <span className="bg-gradient-primary bg-clip-text text-transparent text-xl font-bold">
                     EventHub
                 </span>
             </Link>
