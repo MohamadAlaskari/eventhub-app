@@ -98,7 +98,7 @@ export const AuthProvider= ({children}: AuthProviderProps) => {
         try {
             setAuthState(oldState => ({ ...oldState, isLoading: true }));
 
-             const data= await authService.register(userData);
+            await authService.register(userData);
             
             setAuthState({
                 user:null,
