@@ -4,7 +4,6 @@ import type { Event } from '@/types/event';
 
 
 export const useEventDetails = (eventId: string) => {
-    console.log('useEventDetails: ' ,eventId)
     //Query for event details
     const getEventDetails = useQuery<Event>({
         queryKey: ['event', eventId],

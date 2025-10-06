@@ -18,12 +18,15 @@ class EventsService {
     
     async getEvents(params: EventsApiParams): Promise<EventsApiResponse>{
         try {
-            const queryParams = new URLSearchParams({
-                countryCode: params.countryCode ? params.countryCode : 'US',
-                startDate: params.startDate ? params.startDate : '',
-                size: (params.size ? params.size : 10).toString(),
-                page: (params.page ? params.page : 0).toString()
-            })
+            const queryParams = new URLSearchParams();
+
+
+            // Nur hinzufügen, wenn vorhanden
+            if (params.countryCode) queryParams.append("countryCode", params.countryCode);
+            if (params.startDate) queryParams.append("startDate", params.startDate);
+            if (params.size) queryParams.append("size", params.size.toString());
+            if (params.page) queryParams.append("page", params.page.toString());
+                
             const res = await http.get<EventsApiResponse>(`${API_ENDPOINTS.EVENTS.LIST}?${queryParams}`)
     
     
