@@ -11,6 +11,7 @@ import { useState } from "react"
 import { Link, useParams } from "react-router-dom"
 import { toast } from "sonner"
 import { format } from 'date-fns';
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 
 
 const EventDetail = () => {
@@ -355,6 +356,41 @@ const EventDetail = () => {
         </div>
 
       </div>
+
+
+      <Dialog open={showLoginDialog} onOpenChange={setShowLoginDialog}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle>Login Required</DialogTitle>
+            <DialogDescription>
+              You need to be logged in to add events to your favorites.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="space-y-4">
+            <div className="space-y-3">
+              <Link to="/login" className="w-full" onClick={() => setShowLoginDialog(false)}>
+                <Button className="w-full" size="lg">
+                  Sign In
+                </Button>
+              </Link>
+              <Link to="/register" className="w-full" onClick={() => setShowLoginDialog(false)}>
+                <Button variant="outline" className="w-full" size="lg">
+                  Create Account
+                </Button>
+              </Link>
+            </div>
+            <div className="text-center">
+              <Button 
+                variant="ghost" 
+                onClick={() => setShowLoginDialog(false)}
+                className="text-sm"
+              >
+                Maybe Later
+              </Button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
     </Layout>
   )
  
