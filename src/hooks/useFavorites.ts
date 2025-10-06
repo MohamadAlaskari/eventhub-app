@@ -21,8 +21,21 @@ export const useFavorites = () => {
     const addFavoriteMutation = useMutation({
         mutationFn: (eventId: string) => favoritesService.addFavorite(eventId),
         onSuccess: (_, eventId) => {
-            queryClient.setQueryData(['favorite', eventId], true);
-            queryClient.invalidateQueries({ queryKey: ['favorites'] });
+            // Update favorite status for EventDetail page
+            queryClient.setQueryData(["favorite", eventId], true);
+
+            //  Optionally update Favorites page cache instantly
+            queryClient.setQueryData(["favorites"], (oldData: any) => {
+                if (!oldData || !oldData.events) return oldData;
+
+                const alreadyExists = oldData.events.some((e: any) => e.id === eventId);
+                if (alreadyExists) return oldData;
+
+                return {
+                ...oldData,
+                events: [...oldData.events, { id: eventId }],
+                };
+            });
 
             toast.success('Event added to favorites',{
                 description: 'You can find it in your favorites list'
@@ -42,8 +55,20 @@ export const useFavorites = () => {
         mutationFn: (eventId: string) => favoritesService.removeFavorite(eventId),
         onSuccess: (_, eventId) => {
             toast.success('Event removed from favorites')
-            queryClient.setQueryData(['favorite', eventId], false);
-            queryClient.invalidateQueries({ queryKey: ['favorites'] });
+            // Update favorite status in EventDetail page immediately
+            queryClient.setQueryData(["favorite", eventId], false);
+
+            // Update the Favorites list cache to remove the event instantly
+            queryClient.setQueryData(["favorites"], (oldData: any) => {
+                if (!oldData || !oldData.events) return oldData;
+
+                return {
+                ...oldData,
+                events: oldData.events.filter((event: any) => event.id !== eventId),
+                };
+            });
+
+
         },
         onError: (error) => {
             toast.error('Error', {
