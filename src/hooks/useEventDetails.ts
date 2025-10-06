@@ -18,5 +18,6 @@ export const useEventDetails = (eventId: string) => {
         event: getEventDetails.data,
         isLoading: getEventDetails.isLoading,
         isError: getEventDetails.isError,
+        refresh: getEventDetails.refetch
     }
     }

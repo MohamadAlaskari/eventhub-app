@@ -21,7 +21,6 @@ const EventDetail = () => {
   const {addFavorite, removeFavorite, isAdding, isRemoving} = useFavorites()
   const { data: isFavorited = false } = useFavoriteStatus(id || '');
   const [showLoginDialog, setShowLoginDialog] = useState(false);
-  const [isFavorite, setIsFavorite] = useState(isFavorited);
 
 
 
@@ -36,10 +35,8 @@ const EventDetail = () => {
 
     if (isFavorited) {
       removeFavorite(id);
-      setIsFavorite(false);
     } else {
       addFavorite(id);
-      setIsFavorite(true);
 
     }
   };
@@ -333,19 +330,19 @@ const EventDetail = () => {
                     onClick={handleShare}
                     variant="outline"
                     size="sm"
-                    className="flex-5/6"
+                    className="flex-1"
                   >
                     <Share2 className="mr-2 h-4 w-4" />
                     Share
                   </Button>
                   <Button
                     onClick={handleFavorite}
-                    variant={isFavorite ? "destructive" : "outline"}
+                    variant={isFavorited ? "accent" : "outline"}
                     size="sm"
-                    className="flex-1/6"
+                    className="flex-1"
                     disabled={isAdding || isRemoving}
                   >
-                    <Heart className={`mr-2 h-4 w-4 ${isFavorite ? 'fill-current' : ''}`} />
+                    <Heart className={`mr-2 h-4 w-4 ${isFavorited ? 'fill-accent ' : ''}`} />
                     
                   </Button>
                 </div>

@@ -21,8 +21,9 @@ export const useFavorites = () => {
     const addFavoriteMutation = useMutation({
         mutationFn: (eventId: string) => favoritesService.addFavorite(eventId),
         onSuccess: (_, eventId) => {
-            queryClient.invalidateQueries({ queryKey: ['favorite', eventId] });
+            queryClient.setQueryData(['favorite', eventId], true);
             queryClient.invalidateQueries({ queryKey: ['favorites'] });
+
             toast.success('Event added to favorites',{
                 description: 'You can find it in your favorites list'
             })
@@ -41,7 +42,7 @@ export const useFavorites = () => {
         mutationFn: (eventId: string) => favoritesService.removeFavorite(eventId),
         onSuccess: (_, eventId) => {
             toast.success('Event removed from favorites')
-            queryClient.invalidateQueries({ queryKey: ['favorite', eventId] });
+            queryClient.setQueryData(['favorite', eventId], false);
             queryClient.invalidateQueries({ queryKey: ['favorites'] });
         },
         onError: (error) => {
