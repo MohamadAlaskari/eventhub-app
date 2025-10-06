@@ -13,7 +13,7 @@ const AppRoutes = () => {
     <Routes>
         <Route path="/" element={<Index />}/>
         <Route path="/events" element={<Events />} />
-        <Route path="/events/:eventId" element={<EventDetail />} />
+        <Route path="/events/:id" element={<EventDetail />} />
         <Route path="/Profile" element={<Profile />} />
         <Route path="/favorites" element={<Favorites />} />
         <Route path="/register" element={<Register />} />

@@ -8,6 +8,7 @@ class EventDetailsService {
     async getEventDetails(id:string): Promise<Event> {
         try {
             const res = await http.get<Event>(`${API_ENDPOINTS.EVENTS.DETAILS(id)}`)
+            console.log(res.data)
             if (!res.data  ) {
                 throw new Error('No data found')
             }
