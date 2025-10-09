@@ -7,7 +7,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { useEvents } from "@/hooks/useEvents";
 import type { Event } from "@/types/event";
 import { Calendar } from "lucide-react";
-import { useState } from "react";
+import {  useState } from "react";
 
 const Events = () => {
       // State for current page
@@ -15,16 +15,17 @@ const Events = () => {
 
   const { events, isLoading, pageInfo } = useEvents({ countryCode: "DE", size: 15 , page});
 
+ 
   
    const handleNextPage = () => {
-    if (pageInfo && page < pageInfo.totalPages - 1) {
-      setPage((prev) => prev + 1);
+    if (pageInfo && pageInfo.number < pageInfo.totalPages - 1) {
+      setPage( pageInfo.number + 1);
     }
   };
 
   const handlePrevPage = () => {
-    if (page > 0) {
-      setPage((prev) => prev - 1);
+    if (pageInfo && pageInfo.number > 0) {
+      setPage(pageInfo.number - 1);
     }
   };
 
@@ -88,6 +89,7 @@ const Events = () => {
                         <div className="mt-10">
                             <Pagination>
                                 <PaginationContent>
+                                {/** Previous button */}    
                                 <PaginationItem>
                                     <PaginationPrevious
                                     href="#"
@@ -98,31 +100,25 @@ const Events = () => {
                                     className={page === 0 ? "pointer-events-none opacity-50" : ""}
                                     />
                                 </PaginationItem>
-
-                                {/* Example: show 3 page numbers dynamically */}
-                                {Array.from({ length: pageInfo.totalPages })
-                                    .slice(
-                                    Math.max(0, page - 1),
-                                    Math.min(pageInfo.totalPages, page + 2)
-                                    )
-                                    .map((_, idx) => {
-                                    const pageNum =
-                                        Math.max(0, page - 1) + idx;
-                                    return (
-                                        <PaginationItem key={pageNum}>
-                                        <PaginationLink
-                                            href="#"
-                                            isActive={pageNum === page}
-                                            onClick={(e) => {
-                                            e.preventDefault();
-                                            setPage(pageNum);
-                                            }}
-                                        >
-                                            {pageNum + 1}
-                                        </PaginationLink>
-                                        </PaginationItem>
-                                    );
+                                    {[0, 1, 2, 3].map((offset) => {
+                                        const pageNum = pageInfo.number + offset;
+                                        if (pageNum > pageInfo.totalPages - 1) return null;
+                                        return (
+                                            <PaginationItem key={pageNum}>
+                                            <PaginationLink
+                                                href="#"
+                                                isActive={ pageInfo.number==pageNum}
+                                                onClick={(e) => {
+                                                e.preventDefault();
+                                                setPage(pageNum);
+                                                }}
+                                            >
+                                                {pageNum + 1}
+                                            </PaginationLink>
+                                            </PaginationItem>
+                                        );
                                     })}
+
 
                                 {pageInfo.totalPages > 3 && (
                                     <PaginationItem>
@@ -130,6 +126,7 @@ const Events = () => {
                                     </PaginationItem>
                                 )}
 
+                                {/** Next button */}
                                 <PaginationItem>
                                     <PaginationNext
                                     href="#"

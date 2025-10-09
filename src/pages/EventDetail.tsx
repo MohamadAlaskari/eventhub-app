@@ -309,7 +309,7 @@ const EventDetail = () => {
 
           {/* Sidebar */}
           <div className="lg:col-span-1">
-            <Card className="border-0 shadow-soft sticky top-8">
+            <Card className="border-0 shadow-soft sticky top-18">
               <CardHeader>
                 <CardTitle>
                   Event Information
@@ -318,7 +318,8 @@ const EventDetail = () => {
               <CardContent className="space-y-4">
                 <Button 
                   onClick={handleViewEvent}
-                  size="lg" 
+                  size="lg"
+                  variant="accent"
                   className="w-full"
                   disabled={event.status !== 'onsale'}
                 >
