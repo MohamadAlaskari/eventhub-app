@@ -2,13 +2,32 @@ import EventCard from "@/components/EventCard";
 import Layout from "@/components/Layout";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { Pagination, PaginationContent, PaginationEllipsis, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from "@/components/ui/pagination";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useEvents } from "@/hooks/useEvents";
 import type { Event } from "@/types/event";
 import { Calendar } from "lucide-react";
+import { useState } from "react";
 
 const Events = () => {
-  const { events, isLoading } = useEvents({ countryCode: "DE", size: 10 });
+      // State for current page
+  const [page, setPage] = useState(0);
+
+  const { events, isLoading, pageInfo } = useEvents({ countryCode: "DE", size: 10 , page});
+
+  
+   const handleNextPage = () => {
+    if (pageInfo && page < pageInfo.totalPages - 1) {
+      setPage((prev) => prev + 1);
+    }
+  };
+
+  const handlePrevPage = () => {
+    if (page > 0) {
+      setPage((prev) => prev - 1);
+    }
+  };
+
 
   return (
     <Layout>
@@ -46,12 +65,90 @@ const Events = () => {
                     ))}
                 </div>
              ): events && events.length > 0 ?(
-                
-                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    {events.map((event: Event) => (
-                        <EventCard key={event.id} event={event} />
-                    ))}
-                </div>
+                <>
+                    <div className="flex items-center justify-between mb-8">
+                        <h2 className="text-2xl font-bold text-foreground">
+                            {pageInfo?.totalElements} Event
+                            {pageInfo?.totalElements !== 1 ? "s" : ""} Found
+                        
+                        </h2>
+                        <div className="text-sm text-muted-foreground">
+                            Page {pageInfo ? pageInfo.number + 1 : 1} of{" "}
+                            {pageInfo?.totalPages}                    
+                        </div>
+                    </div>
+                    <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                        {events.map((event: Event) => (
+                            <EventCard key={event.id} event={event} />
+                        ))}
+                    </div>
+
+                    {/* Pagination */}
+                    {pageInfo && pageInfo.totalPages > 1 && (
+                        <div className="mt-10">
+                            <Pagination>
+                                <PaginationContent>
+                                <PaginationItem>
+                                    <PaginationPrevious
+                                    href="#"
+                                    onClick={(e) => {
+                                        e.preventDefault();
+                                        handlePrevPage();
+                                    }}
+                                    className={page === 0 ? "pointer-events-none opacity-50" : ""}
+                                    />
+                                </PaginationItem>
+
+                                {/* Example: show 3 page numbers dynamically */}
+                                {Array.from({ length: pageInfo.totalPages })
+                                    .slice(
+                                    Math.max(0, page - 1),
+                                    Math.min(pageInfo.totalPages, page + 2)
+                                    )
+                                    .map((_, idx) => {
+                                    const pageNum =
+                                        Math.max(0, page - 1) + idx;
+                                    return (
+                                        <PaginationItem key={pageNum}>
+                                        <PaginationLink
+                                            href="#"
+                                            isActive={pageNum === page}
+                                            onClick={(e) => {
+                                            e.preventDefault();
+                                            setPage(pageNum);
+                                            }}
+                                        >
+                                            {pageNum + 1}
+                                        </PaginationLink>
+                                        </PaginationItem>
+                                    );
+                                    })}
+
+                                {pageInfo.totalPages > 3 && (
+                                    <PaginationItem>
+                                    <PaginationEllipsis />
+                                    </PaginationItem>
+                                )}
+
+                                <PaginationItem>
+                                    <PaginationNext
+                                    href="#"
+                                    onClick={(e) => {
+                                        e.preventDefault();
+                                        handleNextPage();
+                                    }}
+                                    className={
+                                        page >= pageInfo.totalPages - 1
+                                        ? "pointer-events-none opacity-50"
+                                        : ""
+                                    }
+                                    />
+                                </PaginationItem>
+                                </PaginationContent>
+                            </Pagination>
+                        </div>
+                    )}
+               </>
              ):(
                 <div className="text-center py-20">
                     <Calendar className="h-16 w-16 text-muted-foreground mx-auto mb-4" />

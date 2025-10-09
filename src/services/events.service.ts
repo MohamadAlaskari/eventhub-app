@@ -4,7 +4,7 @@ import type {Event ,PageInfo } from "@/types/event";
 
 export interface EventsApiResponse {
   events: Event[];
-  pageInfo: PageInfo;
+  page: PageInfo;
 }
 
 export interface EventsApiParams {
@@ -28,11 +28,12 @@ class EventsService {
             if (params.page) queryParams.append("page", params.page.toString());
                 
             const res = await http.get<EventsApiResponse>(`${API_ENDPOINTS.EVENTS.LIST}?${queryParams}`)
-    
+            console.log("page: ",res.data.page)
+
     
             return {
                 events: res.data.events,
-                pageInfo: res.data.pageInfo
+                page: res.data.page
             }
         } catch (error) {
             throw new Error(`Failed to fetch events: ${error instanceof Error ? error.message : 'Unknown error'}`)  

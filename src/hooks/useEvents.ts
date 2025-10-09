@@ -12,9 +12,11 @@ export const useEvents = (params: EventsApiParams) => {
     refetchOnMount: "always",
     retry: 1,
   });
+
   return {
+    
     events: eventsQuery.data?.events,
-    pageInfo: eventsQuery.data?.pageInfo,
+    pageInfo: eventsQuery.data?.page ,
     isLoading: eventsQuery.isLoading,
     isError: eventsQuery.isError,
     refetch: eventsQuery.refetch,
