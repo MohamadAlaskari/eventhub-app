@@ -12,6 +12,7 @@ import { Link, useParams } from "react-router-dom"
 import { toast } from "sonner"
 import { format } from 'date-fns';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog"
+import MapBox from "@/components/MapBox"
 
 
 const EventDetail = () => {
@@ -292,7 +293,7 @@ const EventDetail = () => {
 
                 {/* Map karte */}
                 <div className="aspect-video rounded-lg overflow-hidden bg-muted">
-                  
+                  <MapBox lat={parseFloat(event.latitude)} long={parseFloat(event.longitude)} />
                 </div>
                 {/* Map Infos */}  
                 <div className="mt-4 text-sm text-muted-foreground">
@@ -354,6 +355,7 @@ const EventDetail = () => {
 
       </div>
 
+        
 
       <Dialog open={showLoginDialog} onOpenChange={setShowLoginDialog}>
         <DialogContent className="sm:max-w-md">
