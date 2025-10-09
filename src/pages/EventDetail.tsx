@@ -309,7 +309,7 @@ const EventDetail = () => {
 
           {/* Sidebar */}
           <div className="lg:col-span-1">
-            <Card className="border-0 shadow-soft sticky top-8">
+            <Card className="border-0 shadow-soft sticky top-18">
               <CardHeader>
                 <CardTitle>
                   Event Information
