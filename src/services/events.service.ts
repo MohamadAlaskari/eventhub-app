@@ -28,7 +28,6 @@ class EventsService {
             if (params.page) queryParams.append("page", params.page.toString());
                 
             const res = await http.get<EventsApiResponse>(`${API_ENDPOINTS.EVENTS.LIST}?${queryParams}`)
-            console.log("page: ",res.data.page)
 
     
             return {

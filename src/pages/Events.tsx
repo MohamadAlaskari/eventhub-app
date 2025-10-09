@@ -13,7 +13,7 @@ const Events = () => {
       // State for current page
   const [page, setPage] = useState(0);
 
-  const { events, isLoading, pageInfo } = useEvents({ countryCode: "DE", size: 10 , page});
+  const { events, isLoading, pageInfo } = useEvents({ countryCode: "DE", size: 15 , page});
 
   
    const handleNextPage = () => {
