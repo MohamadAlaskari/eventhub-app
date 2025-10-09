@@ -293,7 +293,7 @@ const EventDetail = () => {
 
                 {/* Map karte */}
                 <div className="aspect-video rounded-lg overflow-hidden bg-muted">
-                  <MapBox lat={parseFloat(event.latitude)} long={parseFloat(event.longitude)} />
+                  <MapBox lat={parseFloat(event.latitude)} long={parseFloat(event.longitude)}  zoom={13} height="100%" />
                 </div>
                 {/* Map Infos */}  
                 <div className="mt-4 text-sm text-muted-foreground">

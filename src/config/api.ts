@@ -13,7 +13,7 @@ import axios from 'axios';
  * Base API config
  */
 export const API_CONFIG = {
-  BASE_URL: 'https://eventhub-api.alaskaritech.com',
+  BASE_URL: import.meta.env.VITE_API_BASE_URL,
   TIMEOUT: 10000,
   HEADERS: {
     'Content-Type': 'application/json',
