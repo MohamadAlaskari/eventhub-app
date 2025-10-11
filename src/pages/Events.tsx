@@ -11,7 +11,7 @@ import { useEvents } from "@/hooks/useEvents";
 import { CountryCode } from "@/types/CountryCode";
 import type { Event } from "@/types/event";
 import { Calendar } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const Events = () => {
       // State for current page
@@ -20,10 +20,31 @@ const Events = () => {
   const [selectedCountryCode, setSelectedCountryCode] = useState<CountryCode>(CountryCode.DE);
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+  const [filteredEvents, setFilteredEvents] = useState<Event[]>([]);
+
   
 
   const { events, isLoading, pageInfo } = useEvents({ countryCode: selectedCountryCode, size: 15 , page});
   const countryCodes = Object.values(CountryCode);
+
+  useEffect(() => {
+    if (!events) return;
+    let filtered = events;
+  
+    // Lokale Suche
+    if (searchQuery.trim() !== "") {
+      filtered = filtered.filter((e) =>
+        e.name.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+    }
+  
+    // Lokale Kategorie
+    if (selectedCategory) {
+      filtered = filtered.filter((e) => e.segment === selectedCategory);
+    }
+  
+    setFilteredEvents(filtered);
+  }, [events, searchQuery, selectedCategory]);
 
   
    const handleNextPage = () => {
@@ -86,7 +107,7 @@ const Events = () => {
                         </Card>
                     ))}
                 </div>
-             ): events && events.length > 0 ?(
+             ): filteredEvents && filteredEvents.length > 0 ?(
                 <>
                 {/* Search and Filters Section*/}
                 <div className="flex flex-col justify-between md:flex-row gap-3 sm:gap-4 mb-6">
@@ -96,6 +117,7 @@ const Events = () => {
                             type="search" 
                             placeholder="Search events..." 
                             className="w-full"
+                            onChange={(e) => setSearchQuery(e.target.value)}
                         />
                     </div>
                     
@@ -107,8 +129,8 @@ const Events = () => {
                                 <SelectTrigger className="w-full">
                                     <SelectValue placeholder="Select a Country" />
                                 </SelectTrigger>
-                                <SelectContent>
-                                    <SelectGroup>
+                                <SelectContent className="max-h-60 overflow-y-auto">
+                                    <SelectGroup >
                                         <SelectLabel>Countries</SelectLabel>
                                         {countryCodes.map((code) => (
                                             <SelectItem key={code} value={code}>{code}</SelectItem>
@@ -120,14 +142,14 @@ const Events = () => {
 
                         {/* Category Filter */}
                         <div className="flex-1 min-w-0">
-                            <Select>
+                            <Select value={selectedCategory??""} onValueChange={setSelectedCategory}>
                                 <SelectTrigger className="w-full">
                                     <SelectValue placeholder="Select a Category" />
                                 </SelectTrigger>
                                 <SelectContent>
-                                    <SelectGroup>
+                                    <SelectGroup className="max-h-60 overflow-y-auto">
                                         <SelectLabel>Category</SelectLabel>
-                                        {Array.from(new Set(events.map(event => event.segment))).map((segment) => (
+                                        {Array.from(new Set(filteredEvents.map(event => event.segment))).map((segment) => (
                                             <SelectItem key={segment} value={segment}>{segment}</SelectItem>
                                         ))}
                                     </SelectGroup>
@@ -151,7 +173,7 @@ const Events = () => {
                         </div>
                     </div>
                     <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                        {events.map((event: Event) => (
+                        {filteredEvents.map((event: Event) => (
                             <EventCard key={event.id} event={event} />
                         ))}
                     </div>
