@@ -16,8 +16,13 @@ import { useState } from "react";
 const Events = () => {
       // State for current page
   const [page, setPage] = useState(0);
+  // State for selected country code
+  const [selectedCountryCode, setSelectedCountryCode] = useState<CountryCode>(CountryCode.DE);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+  
 
-  const { events, isLoading, pageInfo } = useEvents({ countryCode: "DE", size: 15 , page});
+  const { events, isLoading, pageInfo } = useEvents({ countryCode: selectedCountryCode, size: 15 , page});
   const countryCodes = Object.values(CountryCode);
 
   
@@ -33,6 +38,18 @@ const Events = () => {
     }
   };
 
+  // Handler for country selection
+  const handleCountryChange = (value: string) => {
+    setSelectedCountryCode(value as CountryCode);
+    setPage(0); // Reset to first page when country changes
+  };
+  const handleResetFilter = () => {
+    setSelectedCountryCode(CountryCode.DE);
+    setSearchQuery("");
+    setSelectedCategory(null);
+
+    setPage(0);
+  }
 
   return (
     <Layout>
@@ -86,7 +103,7 @@ const Events = () => {
                     <div className="flex-1 flex flex-col gap-3 sm:flex-row  sm:gap-4">
                         {/* Country Filter */}
                         <div className="flex-1 min-w-0">
-                            <Select>
+                            <Select value={selectedCountryCode} onValueChange={handleCountryChange}>
                                 <SelectTrigger className="w-full">
                                     <SelectValue placeholder="Select a Country" />
                                 </SelectTrigger>
@@ -215,9 +232,7 @@ const Events = () => {
                         Try adjusting your filter criteria
                     </p>
                     <Button 
-                        onClick={() => {
-                        // Clear filters  
-                        }}
+                        onClick={handleResetFilter}
                         variant="outline"
                     >
                         Clear Filters
