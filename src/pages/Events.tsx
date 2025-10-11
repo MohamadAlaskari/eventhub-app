@@ -2,9 +2,13 @@ import EventCard from "@/components/EventCard";
 import Layout from "@/components/Layout";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
 import { Pagination, PaginationContent, PaginationEllipsis, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from "@/components/ui/pagination";
+import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Separator } from "@/components/ui/separator";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useEvents } from "@/hooks/useEvents";
+import { CountryCode } from "@/types/CountryCode";
 import type { Event } from "@/types/event";
 import { Calendar } from "lucide-react";
 import { useState } from "react";
@@ -14,6 +18,7 @@ const Events = () => {
   const [page, setPage] = useState(0);
 
   const { events, isLoading, pageInfo } = useEvents({ countryCode: "DE", size: 15 , page});
+  const countryCodes = Object.values(CountryCode);
 
   
    const handleNextPage = () => {
@@ -66,6 +71,57 @@ const Events = () => {
                 </div>
              ): events && events.length > 0 ?(
                 <>
+                {/* Search and Filters Section*/}
+                <div className="flex flex-col justify-between md:flex-row gap-3 sm:gap-4 mb-6">
+                    {/* Search Input */}
+                    <div className="flex-2 ">
+                        <Input 
+                            type="search" 
+                            placeholder="Search events..." 
+                            className="w-full"
+                        />
+                    </div>
+                    
+                    {/* Filters */}
+                    <div className="flex-1 flex flex-col gap-3 sm:flex-row  sm:gap-4">
+                        {/* Country Filter */}
+                        <div className="flex-1 min-w-0">
+                            <Select>
+                                <SelectTrigger className="w-full">
+                                    <SelectValue placeholder="Select a Country" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    <SelectGroup>
+                                        <SelectLabel>Countries</SelectLabel>
+                                        {countryCodes.map((code) => (
+                                            <SelectItem key={code} value={code}>{code}</SelectItem>
+                                        ))}
+                                    </SelectGroup>
+                                </SelectContent>
+                            </Select>
+                        </div>
+
+                        {/* Category Filter */}
+                        <div className="flex-1 min-w-0">
+                            <Select>
+                                <SelectTrigger className="w-full">
+                                    <SelectValue placeholder="Select a Category" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    <SelectGroup>
+                                        <SelectLabel>Category</SelectLabel>
+                                        {Array.from(new Set(events.map(event => event.segment))).map((segment) => (
+                                            <SelectItem key={segment} value={segment}>{segment}</SelectItem>
+                                        ))}
+                                    </SelectGroup>
+                                </SelectContent>
+                            </Select>
+                        </div>
+                    </div>
+                </div>
+                <Separator className="mb-6"/>
+
+
                     <div className="flex items-center justify-between mb-8">
                         <h2 className="text-2xl font-bold text-foreground">
                             {pageInfo?.totalElements} Event
