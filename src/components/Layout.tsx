@@ -10,7 +10,7 @@ interface LayoutProps{
 
 const Layout =({children, className}:LayoutProps)=>{
     return(
-        <div className="min-h-screen bg-background">
+        <div className="min-h-screen bg-background relative">
             <Header/>
             <main className={className}>
                 {children}
