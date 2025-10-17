@@ -14,7 +14,7 @@ class UserService {
         }
     }
 
-    async updateUser( id: string, user: User ): Promise<User> {
+    async updateUser( id: string, user: Partial<User> ): Promise<User> {
         try {
             const response = await httpAuth.put<User>(`${API_ENDPOINTS.USER.UPDATE(id)}`, user);
             return response.data;
